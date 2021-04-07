@@ -1,12 +1,20 @@
 #include <unistd.h>
 #include <errno.h>
-#include "lines.h"
+#include "lib.h"
+
+struct msgs{
+    int type;
+    char* key;
+    char* val1;
+    int val2;
+    float val3;
+    struct msgs* pNext;
+};
 
 int sendMessage(int socket, char * buffer, int len)
 {
     int r;
     int l = len;
-    
     
     do {
         r = write(socket, buffer, l); //Writes into the socket!!!!!

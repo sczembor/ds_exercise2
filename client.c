@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "lines.h"
+#include "lib.h"
 
 #define MAX_LINE     256
 
@@ -19,7 +19,7 @@ struct msgs{
 
 int main(int argc, char *argv[])
 {
-    
+    struct msgs msg;
     int sd;
     struct sockaddr_in server_addr;
     struct hostent *hp;
@@ -58,19 +58,59 @@ int main(int argc, char *argv[])
         printf("NOT CONNECTED\n");
     }
     
-    char buffer[MAX_LINE],buffer1[MAX_LINE];
+    //char buffer[MAX_LINE],buffer1[MAX_LINE];
     int err = 0;
     int n;
     while (err != -1) {
-        n = readLine(0, buffer, MAX_LINE);
-        if (n!=-1){
-            int msg;
-            msg=sendMessage(sd, buffer, n+1);
-            printf("Message sent: %s\n",buffer);
-            if (msg < 0) {
+        //n = readLine(0, buffer, MAX_LINE);
+        //printf("1. init()\n2.set_value()\n3.get_value()\n4.modify_value()\n5.delete_key()\n6.exsist()\n7.num_items()\nChoose one option(ex. \"1\"):");
+        //scanf("%i", &mes1.type);
+        
+        msg.pNext=NULL;
+        
+        if (1){
+            int mes;
+            msg.type=1;
+            printf("sending messages %d\n",sizeof(msg.type));
+            mes=sendMessage(sd, (void*) &msg.type, MAX_LINE); //problem with message sizes I guess :'(
+            printf("Message sent: %s\n",msg.type);
+            if (mes < 0) {
                 perror("Error in sending msg");
                 exit(1);
             }
+            printf("key:");
+            n = readLine(0, msg.key, MAX_LINE);
+            mes=sendMessage(sd, msg.key, n+1);
+            printf("Message sent: %s\n",msg.key);
+            if (mes < 0) {
+                perror("Error in sending msg");
+                exit(1);
+            }
+            printf("value1:");
+            n = readLine(0, msg.val1, MAX_LINE);
+            mes=sendMessage(sd, msg.val1, sizeof(msg.val1)+1);
+            printf("Message sent: %s\n",msg.val1);
+            if (mes < 0) {
+                perror("Error in sending msg");
+                exit(1);
+            }
+            printf("value2:");
+            scanf("%d",&msg.val2);
+            mes=sendMessage(sd, msg.val2, sizeof(int));
+            printf("Message sent: %s\n",msg.val2);
+            if (mes < 0) {
+                perror("Error in sending msg");
+                exit(1);
+            }
+            printf("value3:");
+            scanf("%f",&msg.val3);
+            mes=sendMessage(sd, (char) msg.val3, sizeof(float));
+            printf("Message sent: %s\n",sizeof(msg.val3)+1);
+            if (mes < 0) {
+                perror("Error in sending msg");
+                exit(1);
+            }
+            /*
             if(strncmp(buffer,"EXIT",4)==0){
                 printf("WARNING: EXIT command recieved, CLIENT SHUTING DOWN\n");
                 break;
@@ -79,14 +119,13 @@ int main(int argc, char *argv[])
                 printf("WARNING: KILL command recieved, CLIENT ADN SERVER SHUTING DOWN\n");
                 break;
             }
-            else{
-                msg = readLine(sd, buffer1, MAX_LINE);
-                if (msg < 0) {
-                    perror("Error in recieving msg");
-                    exit(1);
-                }
-                printf("Message recieved: %s\n",buffer);
+            mes = readLine(sd, buffer1, MAX_LINE);
+            if (msg < 0) {
+                perror("Error in recieving msg");
+                exit(1);
             }
+            printf("Message recieved: %s\n",buffer);
+            */
         }
     }
     
