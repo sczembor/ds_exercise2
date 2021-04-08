@@ -69,7 +69,7 @@ void manage_request (int *s) {
             case 1://init
                 toReturn = deleteList();
                 sprintf(&buffer, "%d", toReturn);
-                msg = sendMessage(sc, buffer, msg+1);
+                msg = sendMessage(sc, buffer, strlen(buffer)+1);
                 if (msg < 0) {
                     perror("Error in sending msg");
                     exit(1);
@@ -118,7 +118,8 @@ void manage_request (int *s) {
                     toReturn = -1;
                 }
                 sprintf(&buffer, "%d", toReturn);
-                msg = sendMessage(sc, buffer, msg+1);
+                printf("What i send back from set_value%s\n",buffer);
+                msg = sendMessage(sc, buffer, strlen(buffer)+1);
                 if (msg < 0) {
                     perror("Error in sending msg");
                     exit(1);
@@ -134,28 +135,33 @@ void manage_request (int *s) {
                 strcpy(tmp.key, buffer);
                 if(searchList(&tmp.key)==1)
                 {
+                    printf("im in the list yay\n");
                     toReturn = 0;
                     sprintf(&buffer, "%d", toReturn);
-                    msg = sendMessage(sc, buffer, msg+1);
+                    printf("toReturn:%s\n",buffer);
+                    msg = sendMessage(sc, buffer, strlen(buffer)+1);
                     if (msg < 0) {
                         perror("Error in sending msg");
                         exit(1);
                     }
                     tmp = *getValue(tmp.key);
                     strcpy(buffer, tmp.value1);
-                    msg = sendMessage(sc, buffer, msg+1);//value1
+                    printf("value1:%s\n",buffer);
+                    msg = sendMessage(sc, buffer, strlen(buffer)+1);//value1
                     if (msg < 0) {
                         perror("Error in sending msg");
                         exit(1);
                     }
                     sprintf(&buffer, "%d", tmp.value2);
-                    msg = sendMessage(sc, buffer, msg+1);//value2
+                    printf("value2:%s\n",buffer);
+                    msg = sendMessage(sc, buffer, strlen(buffer)+1);//value2
                     if (msg < 0) {
                         perror("Error in sending msg");
                         exit(1);
                     }
                     sprintf(&buffer, "%f", tmp.value3);
-                    msg = sendMessage(sc, buffer, msg+1);//value3
+                    printf("value3:%s\n",buffer);
+                    msg = sendMessage(sc, buffer, strlen(buffer)+1);//value3
                     if (msg < 0) {
                         perror("Error in sending msg");
                         exit(1);
@@ -163,9 +169,10 @@ void manage_request (int *s) {
                 }
                 else
                 {
+                    printf("im not in the list boo\n");
                     toReturn = -1;
                     sprintf(&buffer, "%d", toReturn);
-                    msg = sendMessage(sc, buffer, msg+1);
+                    msg = sendMessage(sc, buffer, strlen(buffer)+1);
                     if (msg < 0) {
                         perror("Error in sending msg");
                         exit(1);
@@ -173,31 +180,49 @@ void manage_request (int *s) {
                 }
                 break;
             case 4://modify value
-                printf("function returned:%i\n",type);
-                msg = readLine(sc, buffer, MAX_LINE);
+                msg = readLine(sc, buffer, MAX_LINE);//key
                 printf("Message recieved: %s\n",buffer);
                 if (msg < 0) {
                     perror("Error in recieving msg");
                     exit(1);
                 }
-                msg = readLine(sc, buffer, MAX_LINE);
+                strcpy(tmp.key, buffer);
+                msg = readLine(sc, buffer, MAX_LINE);//value1
                 printf("Message recieved: %s\n",buffer);
+                strcpy(tmp.value1, buffer);
                 if (msg < 0) {
                     perror("Error in recieving msg");
                     exit(1);
                 }
-                msg = readLine(sc, buffer, MAX_LINE);
+                msg = readLine(sc, buffer, MAX_LINE);//value2
                 printf("Message recieved: %s\n",buffer);
+                tmp.value2 = atoi(buffer);
                 if (msg < 0) {
                     perror("Error in recieving msg");
                     exit(1);
                 }
-                msg = readLine(sc, buffer, MAX_LINE);
+                msg = readLine(sc, buffer, MAX_LINE);//value3
                 printf("Message recieved: %s\n",buffer);
+                tmp.value3 = atof(buffer);
                 if (msg < 0) {
                     perror("Error in recieving msg");
                     exit(1);
                 }
+                printf("key:%s\n", tmp.key);
+                printf("value1:%s\n", tmp.value1);
+                printf("value2:%i\n", tmp.value2);
+                printf("value3:%f\n", tmp.value3);
+
+                toReturn = modifyNode(&tmp.key, &tmp.value1,&tmp.value2,&tmp.value3);
+
+                sprintf(&buffer, "%d", toReturn);
+                msg = sendMessage(sc, buffer, 2);
+                if (msg < 0)
+                {
+                    perror("Error in sending msg");
+                    exit(1);
+                }
+
                 break;
             case 5://delete_key
                 printf("function returned:%i\n",type);
@@ -207,18 +232,48 @@ void manage_request (int *s) {
                     perror("Error in recieving msg");
                     exit(1);
                 }
+                strcpy(tmp.key, buffer);
+                toReturn = deleteElement(&tmp.key);
+
+                sprintf(&buffer, "%d", toReturn);
+                msg = sendMessage(sc, buffer, strlen(buffer)+1);
+                if (msg < 0)
+                {
+                    perror("Error in sending msg");
+                    exit(1);
+                }
+
                 break;
             case 6://exsist
                 printf("function returned:%i\n",type);
-                break;
                 msg = readLine(sc, buffer, MAX_LINE);
                 printf("Message recieved: %s\n",buffer);
                 if (msg < 0) {
                     perror("Error in recieving msg");
                     exit(1);
                 }
+                strcpy(tmp.key, buffer);
+                toReturn = searchList(&tmp.key);
+
+                sprintf(&buffer, "%d", toReturn);
+                msg = sendMessage(sc, buffer, strlen(buffer)+1);
+                if (msg < 0)
+                {
+                    perror("Error in sending msg");
+                    exit(1);
+                }
+                break;
             case 7://num_items
-                printf("function returned:%i\n",type);
+
+                toReturn = numElements();
+
+                sprintf(&buffer, "%d", toReturn);
+                msg = sendMessage(sc, buffer, strlen(buffer)+1);
+                if (msg < 0)
+                {
+                    perror("Error in sending msg");
+                    exit(1);
+                }
                 break;
             default:
                 perror ("Client: Invalid Arguemnt(function)");

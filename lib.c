@@ -178,11 +178,15 @@ int get_value(int socket){
     send_type(socket,3);
     printf("key:\n");
     input_send(socket);
-    int res = recieve_result(socket)
+    int res = recieve_result(socket);
     if (res==0){
        recieve_values(socket);
+       return res;
     }
-    return res;
+    else
+    {
+        return -1;
+    }
 }
 int modify_value(int socket){
     send_type(socket,4);
@@ -193,6 +197,7 @@ int modify_value(int socket){
     printf("val2:\n");
     input_send(socket);
     printf("val3:\n");
+    input_send(socket);
     return recieve_result(socket);
 }
 int delete_key(int socket){

@@ -1,0 +1,4 @@
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/CMakeFiles/rebuild_cache.dir
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/CMakeFiles/edit_cache.dir
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/CMakeFiles/server.dir
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/CMakeFiles/client.dir
