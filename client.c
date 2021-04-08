@@ -6,21 +6,8 @@
 #include <errno.h>
 #include "lib.h"
 
-#define MAX_LINE     256
-/*
-struct msgs{
-    int type;
-    char* key;
-    char* val1;
-    int val2;
-    float val3;
-    struct msgs* pNext;
-};
- */
-
 int main(int argc, char *argv[])
 {
-    //struct msgs msg;
     int sd;
     struct sockaddr_in server_addr;
     struct hostent *hp;
@@ -49,8 +36,6 @@ int main(int argc, char *argv[])
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(atoi(argv[2]));
     
-    // Complete.....
-    // First: establish the connection
     int connection = connect (sd,(struct sockaddr *)&server_addr,sizeof(server_addr));
     if (connection==0){
         printf("Connection established congrats!\n");
@@ -62,7 +47,7 @@ int main(int argc, char *argv[])
     int err = 0;
     int msgtype;
     while (err != -1) {
-        printf("1. init()\n2.set_value()\n3.get_value()\n4.modify_value()\n5.delete_key()\n6.exsist()\n7.num_items()\nChoose one option(ex. \"1\"):");
+        printf("1. init()\n2.set_value()\n3.get_value()\n4.modify_value()\n5.delete_key()\n6.exsist()\n7.num_items()\n8.exit()\nChoose one option(ex. \"1\"):");
         scanf("%i", &msgtype);
         switch (msgtype) {
             case 1:
@@ -85,6 +70,9 @@ int main(int argc, char *argv[])
                 break;
             case 7:
                 num_items(sd);
+                break;
+            case 8:
+                terminate(sd);
                 break;
         }
     }

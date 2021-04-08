@@ -123,10 +123,43 @@ void send_type(int socket,int type){
             exit(1);
     }
 }
+void recieve_values(int socket){
+    char buffer[MAX_LINE];
+    int msg = readLine(socket, buffer, MAX_LINE);
+    printf("Value 1: %s\n",buffer);
+    if (msg < 0) {
+        perror("Error in recieving msg");
+        exit(1);
+    }
+    msg = readLine(socket, buffer, MAX_LINE);
+    printf("Value 2: %s\n",buffer);
+    if (msg < 0) {
+        perror("Error in recieving msg");
+        exit(1);
+    }
+    msg = readLine(socket, buffer, MAX_LINE);
+    printf("Value  3: %s\n",buffer);
+    if (msg < 0) {
+        perror("Error in recieving msg");
+        exit(1);
+    }
+}
+
+int recieve_result(int socket){
+    char buffer[MAX_LINE];
+    int msg = readLine(socket, buffer, MAX_LINE);
+    printf("Result recieved: %s\n",buffer);
+    if (msg < 0) {
+        perror("Error in recieving msg");
+        exit(1);
+    }
+    int res = atoi(buffer);
+    return  res;
+}
 
 int init(int socket){
     send_type(socket,1);
-    return 0;
+    return recieve_result(socket);
 }
 int set_value(int socket){
     send_type(socket,2);
@@ -138,13 +171,13 @@ int set_value(int socket){
     input_send(socket);
     printf("val3:\n");
     input_send(socket);
-    return 0;
+    return recieve_result(socket);
 }
 int get_value(int socket){
     send_type(socket,3);
     printf("key:\n");
     input_send(socket);
-    return 0;
+    return recieve_result(socket);
 }
 int modify_value(int socket){
     send_type(socket,4);
@@ -155,21 +188,26 @@ int modify_value(int socket){
     printf("val2:\n");
     input_send(socket);
     printf("val3:\n");
-    return 0;
+    return recieve_result(socket);
 }
 int delete_key(int socket){
     send_type(socket,5);
     printf("key:\n");
     input_send(socket);
-    return 0;
+    return recieve_result(socket);
 }
 int exist(int socket){
     send_type(socket,6);
     printf("key:\n");
     input_send(socket);
-    return 0;
+    return recieve_result(socket);
 }
 int num_items(int socket){
     send_type(socket,7);
-    return 0;
+    return recieve_result(socket);
+}
+int terminate(int socket){
+    send_type(socket,8);
+    close(socket);
+    return(0);
 }
