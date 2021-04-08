@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
             int mes;
             msg.type=1;
             printf("sending messages %d\n",sizeof(msg.type));
-            mes=sendMessage(sd, (void*) &msg.type, MAX_LINE); //problem with message sizes I guess :'(
+            mes=sendMessage(sd, (void*) &msg.type, 8); //problem with message sizes I guess :'(
             printf("Message sent: %s\n",msg.type);
             if (mes < 0) {
                 perror("Error in sending msg");
