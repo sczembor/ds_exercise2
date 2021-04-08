@@ -17,7 +17,6 @@ struct msgs{
     struct msgs* pNext;
 };
  */
-void input_send(int socket);
 
 int main(int argc, char *argv[])
 {
@@ -63,22 +62,29 @@ int main(int argc, char *argv[])
     int err = 0;
     int msgtype;
     while (err != -1) {
+        printf("1. init()\n2.set_value()\n3.get_value()\n4.modify_value()\n5.delete_key()\n6.exsist()\n7.num_items()\nChoose one option(ex. \"1\"):");
         scanf("%i", &msgtype);
         switch (msgtype) {
             case 1:
-                input_send(sd);
+                init(sd);
                 break;
             case 2:
+                set_value(sd);
                 break;
             case 3:
+                get_value(sd);
                 break;
             case 4:
+                modify_value(sd);
                 break;
             case 5:
+                delete_key(sd);
                 break;
             case 6:
+                exist(sd);
                 break;
             case 7:
+                num_items(sd);
                 break;
         }
     }
@@ -89,18 +95,4 @@ int main(int argc, char *argv[])
     return(0);
 }
 
-void input_send(int socket){
-    int n;
-    char buffer[MAX_LINE];
-    n = readLine(0, buffer, MAX_LINE);
-    if (n!=-1){
-        int msg;
-        msg=sendMessage(socket, buffer, n+1);
-        printf("Message sent: %s\n",buffer);
-        if (msg < 0) {
-            perror("Error in sending msg");
-            exit(1);
-        }
-    }
-}
 

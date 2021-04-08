@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "lib.h"
 
+#define MAX_LINE     256
+
 struct msgs{
     int type;
     char* key;
@@ -96,3 +98,78 @@ ssize_t readLine(int fd, void *buffer, size_t n)
     return totRead;
 }
 
+void input_send(int socket){
+    int n;
+    char buffer[MAX_LINE];
+    n = readLine(0, buffer, MAX_LINE);
+    if (n!=-1){
+        int msg;
+        msg=sendMessage(socket, buffer, n+1);
+        printf("Message sent: %s\n",buffer);
+        if (msg < 0) {
+            perror("Error in sending msg");
+            exit(1);
+        }
+    }
+}
+void send_type(int socket,int type){
+        int msg;
+        char buffer[MAX_LINE];
+        sprintf(&buffer,"%d",type);
+        msg=sendMessage(socket, buffer, 2);
+        printf("Message sent: %s\n",buffer);
+        if (msg < 0) {
+            perror("Error in sending msg");
+            exit(1);
+    }
+}
+
+int init(int socket){
+    send_type(socket,1);
+    return 0;
+}
+int set_value(int socket){
+    send_type(socket,2);
+    printf("key:\n");
+    input_send(socket);
+    printf("val1:\n");
+    input_send(socket);
+    printf("val2:\n");
+    input_send(socket);
+    printf("val3:\n");
+    input_send(socket);
+    return 0;
+}
+int get_value(int socket){
+    send_type(socket,3);
+    printf("key:\n");
+    input_send(socket);
+    return 0;
+}
+int modify_value(int socket){
+    send_type(socket,4);
+    printf("key:\n");
+    input_send(socket);
+    printf("val1:\n");
+    input_send(socket);
+    printf("val2:\n");
+    input_send(socket);
+    printf("val3:\n");
+    return 0;
+}
+int delete_key(int socket){
+    send_type(socket,5);
+    printf("key:\n");
+    input_send(socket);
+    return 0;
+}
+int exist(int socket){
+    send_type(socket,6);
+    printf("key:\n");
+    input_send(socket);
+    return 0;
+}
+int num_items(int socket){
+    send_type(socket,7);
+    return 0;
+}
