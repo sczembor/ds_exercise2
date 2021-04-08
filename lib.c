@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include "lib.h"
+#include <stdlib.h>
 
 #define MAX_LINE     256
 

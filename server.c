@@ -14,25 +14,35 @@
 #define TRUE 1
 #define FALSE 0
 
-struct msgs{
+struct Element{
     int type;
     char key[254];
-    char val1[254];
-    int val2;
-    float val3;
-    struct msgs* pNext;
+    char value1[254];
+    int value2;
+    float value3;
+    struct Element* pNext;
 };
-
+//GLOBALS ----------
 int busy;
 int kill;
 pthread_t thread;
 pthread_attr_t attr;
 pthread_mutex_t mutex1;
 pthread_cond_t signal1;
+struct Element* pHead = NULL;
+
+//FUNCTIONS  DECLARATIONS  -------------
+int addNode(char* key, char* value1, int* value2, float* value3);
+int modifyNode(char* key, char* value1, int* value2, float* value3);
+int deleteList(void);
+int searchList(char* _key);
+int deleteElement(char* key);
+struct Element* getValue(char* key);
+int numElements(void);
 
 //FUNCTIONS
 void manage_request (int *s) {
-    struct msgs msg;
+    struct Element tmp;
     int sc;
     kill=FALSE;
     pthread_mutex_lock(&mutex1);
@@ -52,6 +62,168 @@ void manage_request (int *s) {
         if (msg < 0) {
             perror("Error in recieving msg");
             exit(1);
+        }
+        int type = atoi(buffer);
+        int toReturn;
+        switch (type) {
+            case 1://init
+                toReturn = deleteList();
+                sprintf(&buffer, "%d", toReturn);
+                msg = sendMessage(sc, buffer, msg+1);
+                if (msg < 0) {
+                    perror("Error in sending msg");
+                    exit(1);
+                }
+                printf("function returned:%i\n",toReturn);
+                break;
+            case 2://set_value
+                msg = readLine(sc, buffer, MAX_LINE);//key
+                printf("Message recieved: %s\n",buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                strcpy(tmp.key, buffer);
+                msg = readLine(sc, buffer, MAX_LINE);//value1
+                printf("Message recieved: %s\n",buffer);
+                strcpy(tmp.value1, buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                msg = readLine(sc, buffer, MAX_LINE);//value2
+                printf("Message recieved: %s\n",buffer);
+                tmp.value2 = atoi(buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                msg = readLine(sc, buffer, MAX_LINE);//value3
+                printf("Message recieved: %s\n",buffer);
+                tmp.value3 = atof(buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                printf("key:%s\n", tmp.key);
+                printf("value1:%s\n", tmp.value1);
+                printf("value2:%i\n", tmp.value2);
+                printf("value3:%f\n", tmp.value3);
+                if(searchList(&tmp.key)==0)
+                {
+                    toReturn = addNode(&tmp.key,&tmp.value1,&tmp.value2,&tmp.value3);
+                }
+                else
+                {
+                    toReturn = -1;
+                }
+                sprintf(&buffer, "%d", toReturn);
+                msg = sendMessage(sc, buffer, msg+1);
+                if (msg < 0) {
+                    perror("Error in sending msg");
+                    exit(1);
+                }
+                break;
+            case 3://get_value
+                msg = readLine(sc, buffer, MAX_LINE);//key
+                printf("Message recieved: %s\n",buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                strcpy(tmp.key, buffer);
+                if(searchList(&tmp.key)==1)
+                {
+                    toReturn = 0;
+                    sprintf(&buffer, "%d", toReturn);
+                    msg = sendMessage(sc, buffer, msg+1);
+                    if (msg < 0) {
+                        perror("Error in sending msg");
+                        exit(1);
+                    }
+                    tmp = *getValue(tmp.key);
+                    strcpy(buffer, tmp.value1);
+                    msg = sendMessage(sc, buffer, msg+1);//value1
+                    if (msg < 0) {
+                        perror("Error in sending msg");
+                        exit(1);
+                    }
+                    sprintf(&buffer, "%d", tmp.value2);
+                    msg = sendMessage(sc, buffer, msg+1);//value2
+                    if (msg < 0) {
+                        perror("Error in sending msg");
+                        exit(1);
+                    }
+                    sprintf(&buffer, "%f", tmp.value3);
+                    msg = sendMessage(sc, buffer, msg+1);//value3
+                    if (msg < 0) {
+                        perror("Error in sending msg");
+                        exit(1);
+                    }
+                }
+                else
+                {
+                    toReturn = -1;
+                    sprintf(&buffer, "%d", toReturn);
+                    msg = sendMessage(sc, buffer, msg+1);
+                    if (msg < 0) {
+                        perror("Error in sending msg");
+                        exit(1);
+                    }
+                }
+                break;
+            case 4://modify value
+                printf("function returned:%i\n",type);
+                msg = readLine(sc, buffer, MAX_LINE);
+                printf("Message recieved: %s\n",buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                msg = readLine(sc, buffer, MAX_LINE);
+                printf("Message recieved: %s\n",buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                msg = readLine(sc, buffer, MAX_LINE);
+                printf("Message recieved: %s\n",buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                msg = readLine(sc, buffer, MAX_LINE);
+                printf("Message recieved: %s\n",buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                break;
+            case 5://delete_key
+                printf("function returned:%i\n",type);
+                msg = readLine(sc, buffer, MAX_LINE);
+                printf("Message recieved: %s\n",buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+                break;
+            case 6://exsist
+                printf("function returned:%i\n",type);
+                break;
+                msg = readLine(sc, buffer, MAX_LINE);
+                printf("Message recieved: %s\n",buffer);
+                if (msg < 0) {
+                    perror("Error in recieving msg");
+                    exit(1);
+                }
+            case 7://num_items
+                printf("function returned:%i\n",type);
+                break;
+            default:
+                perror ("Client: Invalid Arguemnt(function)");
+                exit (1);
+                break;
         }
         /*
         int mes = recvMessage(sc, msg.type, MAX_LINE);
@@ -184,5 +356,95 @@ int main(int argc, char *argv[])
     }
     close (sd);
     return(0);
+}
+int addNode(char* key, char* value1, int* value2, float* value3)
+{
+    struct Element* new = (struct Element*)malloc(sizeof(struct Element));
+    strcpy(new->key,key);
+    strcpy(new->value1,value1);
+    new->value2 = *value2;
+    new->value3 = *value3;
+    new->pNext = pHead;
+    pHead = new;
+    return 0;
+}
+int deleteList()
+{
+    struct Element* tmp = NULL;
+    while(pHead != NULL){
+        tmp = pHead->pNext;
+        free(pHead);
+        pHead = tmp;
+    }
+    return 0;
+}
+int searchList(char* _key)
+{
+    struct Element* tmp = pHead;
+    while(tmp != NULL)
+    {
+        if(strcmp(_key, tmp->key) == 0)
+            return 1;
+        tmp = tmp->pNext;
+    }
+    return 0;//element does not exsist
+}
+struct Element* getValue(char* key)
+{
+    struct Element* tmp = pHead;
+    while(tmp != NULL)
+    {
+        if(!strcmp(key, tmp->key))
+            return tmp;
+        tmp = tmp->pNext;
+    }
+    return NULL;//element does not exsist
+}
+int modifyNode(char* key, char* value1, int* value2, float* value3)
+{
+    struct Element* tmp = pHead;
+    while(tmp != NULL)
+    {
+        if(!strcmp(key, tmp->key))
+        {
+            strcpy(tmp->value1, value1);
+            tmp->value2 = *value2;
+            tmp->value3 = *value3;
+            return 0;
+        }
+        tmp = tmp->pNext;
+    }
+    return -1;//element does not exsist
+}
+int deleteElement(char* key)
+{
+    struct Element* prev = NULL;
+    struct Element* tmp = pHead;
+    while(tmp)
+    {
+        if(!strcmp(key, tmp->key))
+        {
+            if(prev!=NULL)
+                prev->pNext = tmp->pNext;
+            else
+                pHead = tmp->pNext;
+            free(tmp);
+            return 0;
+        }
+        prev = tmp;
+        tmp = tmp->pNext;
+    }
+    return -1;//element does not exsist
+}
+int numElements()
+{
+    int num = 0;
+    struct Element* tmp = pHead;
+    while(tmp)
+    {
+        num = num + 1;
+        tmp = tmp->pNext;
+    }
+    return num;
 }
 

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/client.c
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/client.c
 netdb.h
 -
 stdio.h
@@ -20,9 +20,9 @@ stdlib.h
 errno.h
 -
 lib.h
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.h
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.h
 
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.c
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.c
 unistd.h
 -
 errno.h
@@ -30,9 +30,11 @@ errno.h
 stdio.h
 -
 lib.h
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.h
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.h
+stdlib.h
+-
 
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.h
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.h
 unistd.h
 -
 

@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.c" "/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/CMakeFiles/server.dir/lib.c.o"
-  "/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/server.c" "/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/CMakeFiles/server.dir/server.c.o"
+  "/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.c" "/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/CMakeFiles/server.dir/lib.c.o"
+  "/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/server.c" "/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/CMakeFiles/server.dir/server.c.o"
   )
 set(CMAKE_C_COMPILER_ID "Clang")
 
