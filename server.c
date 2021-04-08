@@ -46,6 +46,14 @@ void manage_request (int *s) {
     pthread_mutex_unlock(&mutex1);
     
     while (1){
+        
+        int msg = readLine(sc, buffer, MAX_LINE);
+        printf("Message recieved: %s\n",buffer);
+        if (msg < 0) {
+            perror("Error in recieving msg");
+            exit(1);
+        }
+        /*
         int mes = recvMessage(sc, msg.type, MAX_LINE);
         printf("Message recieved: %s\n",msg.type);
         if (mes < 0) {
@@ -79,6 +87,8 @@ void manage_request (int *s) {
                    perror("Error in recieving msg");
                    exit(1);
                }
+         */
+        
         /*
         if(strncmp(buffer,"EXIT",4)==0){
             break;

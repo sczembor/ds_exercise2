@@ -21,6 +21,7 @@ int sendMessage(int socket, char * buffer, int len)
         printf("written into the socket\n");
         l = l -r;
         buffer = buffer + r;
+        printf("WTF\n");
     } while ((l>0) && (r>=0));
     
     if (r < 0)

@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
         printf("NOT CONNECTED\n");
     }
     
-    //char buffer[MAX_LINE],buffer1[MAX_LINE];
+    char buffer[MAX_LINE],buffer1[MAX_LINE];
     int err = 0;
     int n;
     while (err != -1) {
@@ -68,18 +68,28 @@ int main(int argc, char *argv[])
         
         msg.pNext=NULL;
         
+        n = readLine(0, buffer, MAX_LINE);
+        if (n!=-1){
+            int msg;
+            msg=sendMessage(sd, buffer, n+1);
+            printf("Message sent: %s\n",buffer);
+            if (msg < 0) {
+                perror("Error in sending msg");
+                exit(1);
+            }
+        /*
         if (1){
             int mes;
             msg.type=1;
             printf("sending messages %d\n",sizeof(msg.type));
-            mes=sendMessage(sd, (void*) &msg.type, 1); //problem with message sizes I guess :'(
+            mes=sendMessage(sd, (char*) &msg.type, 1); //problem with message sizes I guess :'(
             printf("Message sent: %s\n",msg.type);
             if (mes < 0) {
                 perror("Error in sending msg");
                 exit(1);
             }
-            printf("key:");
-            n = readLine(0, msg.key, MAX_LINE);
+            printf("key:\n");
+            n = readLine(0, &msg.key, MAX_LINE);
             mes=sendMessage(sd, msg.key, n+1);
             printf("Message sent: %s\n",msg.key);
             if (mes < 0) {
@@ -110,6 +120,7 @@ int main(int argc, char *argv[])
                 perror("Error in sending msg");
                 exit(1);
             }
+         */
             /*
             if(strncmp(buffer,"EXIT",4)==0){
                 printf("WARNING: EXIT command recieved, CLIENT SHUTING DOWN\n");
