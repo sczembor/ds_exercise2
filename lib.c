@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <errno.h>
+#include <stdio.h>
 #include "lib.h"
 
 struct msgs{
@@ -18,10 +19,10 @@ int sendMessage(int socket, char * buffer, int len)
     
     do {
         r = write(socket, buffer, l); //Writes into the socket!!!!!
-        printf("written into the socket\n");
+        //printf("written into the socket\n");
         l = l -r;
         buffer = buffer + r;
-        printf("WTF\n");
+        //printf("WTF\n");
     } while ((l>0) && (r>=0));
     
     if (r < 0)
