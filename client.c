@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
                 break;
             case 8:
                 terminate(sd);
+                exit(1);
                 break;
         }
     }

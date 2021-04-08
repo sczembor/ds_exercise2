@@ -6,17 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.c
-unistd.h
--
-errno.h
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/client.c
+netdb.h
 -
 stdio.h
 -
-lib.h
-/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.h
+string.h
+-
+unistd.h
+-
 stdlib.h
 -
+errno.h
+-
+lib.h
+/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.h
 
 /Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.h
 unistd.h

@@ -275,6 +275,11 @@ void manage_request (int *s) {
                     exit(1);
                 }
                 break;
+            case 8://exit
+                printf("WARNING: EXIT command recieved, THREAD DISCONNECTING\n");
+                close(sc);
+                pthread_exit(NULL);
+                break;
             default:
                 perror ("Client: Invalid Arguemnt(function)");
                 exit (1);
@@ -336,9 +341,6 @@ void manage_request (int *s) {
         }
         */
     }
-    printf("WARNING: EXIT command recieved, THREAD DISCONNECTING\n");
-    close(sc);
-    pthread_exit(NULL);
 }
 
 //MAIN
