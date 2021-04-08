@@ -177,7 +177,11 @@ int get_value(int socket){
     send_type(socket,3);
     printf("key:\n");
     input_send(socket);
-    return recieve_result(socket);
+    int res = recieve_result(socket)
+    if (res==0){
+       recieve_values(socket);
+    }
+    return res;
 }
 int modify_value(int socket){
     send_type(socket,4);
