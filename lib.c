@@ -106,7 +106,7 @@ void input_send(int socket){
     if (n!=-1){
         int msg;
         msg=sendMessage(socket, buffer, n+1);
-        printf("Message sent: %s\n",buffer);
+        //printf("Message sent: %s\n",buffer);
         if (msg < 0) {
             perror("Error in sending msg");
             exit(1);
@@ -118,7 +118,7 @@ void send_type(int socket,int type){
         char buffer[MAX_LINE];
         sprintf(&buffer,"%d",type);
         msg=sendMessage(socket, buffer, 2);
-        printf("Message sent: %s\n",buffer);
+        //printf("Message sent: %s\n",buffer);
         if (msg < 0) {
             perror("Error in sending msg");
             exit(1);
@@ -149,7 +149,7 @@ void recieve_values(int socket){
 int recieve_result(int socket){
     char buffer[MAX_LINE];
     int msg = readLine(socket, buffer, MAX_LINE);
-    printf("Result recieved: %s\n",buffer);
+    printf("Function that you selected returned: %s\n",buffer);
     if (msg < 0) {
         perror("Error in recieving msg");
         exit(1);

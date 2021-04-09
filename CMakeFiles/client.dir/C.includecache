@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.c
+unistd.h
+-
+errno.h
+-
+stdio.h
+-
+lib.h
+/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.h
+stdlib.h
+-
+
+/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.h
+unistd.h
+-
+

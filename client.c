@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     int err = 0;
     int msgtype;
     while (err != -1) {
-        printf("1. init()\n2.set_value()\n3.get_value()\n4.modify_value()\n5.delete_key()\n6.exsist()\n7.num_items()\n8.exit()\nChoose one option(ex. \"1\"):");
+        printf("1. init()\n2.set_value()\n3.get_value()\n4.modify_value()\n5.delete_key()\n6.exist()\n7.num_items()\n8.exit()\nChoose one option(ex. \"1\"):");
         scanf("%i", &msgtype);
         switch (msgtype) {
             case 1:
