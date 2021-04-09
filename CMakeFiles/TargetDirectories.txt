@@ -1,4 +1,0 @@
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/CMakeFiles/rebuild_cache.dir
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/CMakeFiles/edit_cache.dir
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/CMakeFiles/server.dir
-/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/CMakeFiles/client.dir
