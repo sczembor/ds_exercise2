@@ -6,11 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.h
+/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.c
+unistd.h
+-
+errno.h
+-
+stdio.h
+-
+lib.h
+/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.h
+stdlib.h
+-
+
+/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.h
 unistd.h
 -
 
-/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/server.c
+/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/server.c
 sys/types.h
 -
 sys/socket.h
@@ -30,5 +42,5 @@ stdio.h
 pthread.h
 -
 lib.h
-/Users/stanislawczembor/Desktop/dso/2/ds_exercise2/lib.h
+/Users/dinokfenicky/DEsktop/Distributed/Ex. 2/ds_exercise2/lib.h
 
